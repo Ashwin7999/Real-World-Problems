@@ -1,0 +1,30 @@
+
+list1=[100,100,100,100]
+list2=[300,300,200,400]
+list4=list2.copy()
+for i in range(3):
+    list3=[]
+    if(0 not in list2):
+        for j in range(len(list1)):
+            b=list2[j]-list1[j]
+            list3.append(b)
+            print(b)   
+        list2.clear()
+        list2=list3.copy()  
+        list3.clear()
+        print()
+    else:
+        for k in range(len(list1)):
+            if(list2[k]!=0):
+                list3.append(list2[k])
+            else:
+                list3.append(list4[k])
+                list3[k-1]=list4[k-1]
+                toto=list3[k-1]+list3[k]
+        list2=list3.copy()  
+        list3.clear()
+print(sum(list4)+toto)        
+    
+                    
+                    
+            
