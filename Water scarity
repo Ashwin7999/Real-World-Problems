@@ -24,6 +24,43 @@ for i in range(3):
         list2=list3.copy()  
         list3.clear()
 print(sum(list4)+toto)        
+
+
+
+
+
+days=3
+cla=3
+init={}
+use={}
+liter=0
+list1=[]
+a=["c1 100 300","c2 100 300","c3 100 200"]
+for i in a:
+    i=i.split()
+    init[i[0]]=list(map(int,i[1:]))
+    use[i[0]]=0
+b=["F_c1","F_c2","c2_c3"]
+for j in b:
+    j=j.split("_")
+    if(j[0]=="F"):
+        list1.append([j[1]])
+    else:
+        for k in list1:
+            if(j[0] in k):
+                k.append(j[1])
+for p in list1:
+    for l in p:
+        liter+=init[l][1]
+        use[l]=init[l][1]
+while(1):
+    if(days==0):
+        break
+    else:
+        for i in init.keys():
+            use[i]-=init[i][0]
+    days-=1
+        
     
                     
                     
