@@ -44,7 +44,7 @@ Assume that
 In your solution, focus on correctness. The performance of your solution will not be the focus of the assessment.
 
 
-PROGRAM 1:
+PROGRAM 1: UPDATED
 from math import ceil
 d1={};      d2={}
 n=int(input())
@@ -75,6 +75,8 @@ for i,j in sorted(d1.items(),key=lambda x:x[1]):
 list1=sorted(list1)
 d2[list1[0]]=0
 print("Bill :",sum(d2.values()))
+
+
 
 
 PROGRAM 2:
