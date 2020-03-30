@@ -1,0 +1,222 @@
+Write a program to calculate monthly phone bill	
+Your monthly phone bill has just arrived, and it's unexpectedly large. 
+
+You decide to verify the amount by recalculating the bill based on your phone call logs
+ and the phone company's charges. 
+The logs are given as a string S consisting of N lines separated by end-of-line characters (ASCII code 10). 
+Each line describes one phone call using the following format 
+""hh:mm:ss, nnn-nnn-nnn""
+where ""hh:mm: ss"" denotes the duration of the call (in ""hh"" hours, ""mm"" minutes and ,""ss"" seconds)
+ and ""nnn-nnn-nnn"" denotes the 9-digit phone number of the recipient (with no leading zeros). 
+
+Each call is billed separately. The billing rules are as follows: 
+• If the call was shorter than 5 minutes, then you pay 3 cents for every started second 
+of the call (e.g. for duration ""00:01:07"" you pay 67*3 = 201 cents). 
+• If the call was at least 5 minutes long, then you pay 150 cents for every started minute 
+of the call (e.g. for duration ""00:05:00"" you pay 5* 150 = 750 cents and for duration ""00:05:01"" you 
+pay 6 *150 = 900 cents). 
+• All calls to the phone number that has the longest total duration of calls are free. In the case of a tie, 
+if more than one phone number shares the longest total duration, the promotion is applied only to the 
+phone number whose numerical value is the smallest among these phone numbers. 
+
+Write a function: 
+
+class Solution { public int solution(String 3); }
+
+that, given a string S describing phone call logs, returns the amountof money you have to pay in cents.
+ 
+For example, given string S with N = 3 lines: 
+
+"00:01:07,400-234-090
+00:05:01,701-080-080
+00:05:00,400-234-090" 
+
+The function should return 900 (the total duration for number 400-234-090 is 6 minutes 7 seconds, 
+and the total duration for number 701-080-080 is 5 minutes 1 second; therefore, the free promotion
+applies to the former phone number). 
+
+Assume that 
+• N is an integer within the range 1...100]; 
+• every phone number follows the format ""nnn-nnn-nnn"" strictly; there are no leading zeros;
+ • the duration of every call follows the format ""hh:mm:ss"" strictly (00 <= hh <= 99, 00 <= mm, ss <= 59); 
+• each line follows the format ""hh:mm:ss,nnn-nnn-nnn "" strictly; there are no empty lines and spaces. 
+
+In your solution, focus on correctness. The performance of your solution will not be the focus of the assessment.
+
+
+PROGRAM 1:
+from math import ceil
+d1={};      d2={}
+n=int(input())
+a=input().split()
+for i in a:
+    i=i.split(",")
+    h,m,s=i[0].split(":")
+    t1=int(h)*3600+int(m)*60+int(s)
+    t2=t1
+    if(t2>=0 and t2<300):
+        t2=t2*3
+    elif(t2==300):
+        t2=(t2//60)*150
+    else:
+        t2=ceil(t2/60)*150  
+    n=int(i[1].replace("-",''))    
+    if(n not in d1.keys()):
+        d1[n]=t1
+        d2[n]=t2
+    else:
+        d1[n]+=t1
+        d2[n]+=t2
+        
+list1=[]
+for i,j in sorted(d1.items(),key=lambda x:x[1]):
+    if(j==max(d1.values())):
+        list1.append(i)
+list1=sorted(list1)
+d2[list1[0]]=0
+print("Bill :",sum(d2.values()))
+
+
+PROGRAM 2:
+import collections, functools, operator 
+n=3
+list1=[]
+list2=[]
+list3=[]
+list4=[]
+list5=[]
+a=input().split()
+for i in a:
+    a=i.split(",")
+    b = a[0]
+    h,m,s = b.split(':')
+    c = int(h)*3600 + int(m)*60 + int(s)
+    list3.append(c)
+    if(c>=0 and c<300):
+        d=c*3
+        list1.append(d)
+    elif(c==300):
+        e=(c//60)*150
+        list1.append(e)
+    elif(c>300):
+        d=c//60
+        if(c%60>0):
+            d=d+1
+        d=d*150
+        list1.append(d)
+    x = a[1]
+    y = x.split('-')
+    list2.append(''.join(y))   
+z1=list(zip(list2,list1))
+z2=list(zip(list2,list3))
+for i in z1:
+    j=dict({i})
+    list4.append(j)  
+result1 = dict(functools.reduce(operator.add, 
+         map(collections.Counter, list4))) 
+for i in z2:
+    j=dict({i})
+    list5.append(j) 
+result2 = dict(functools.reduce(operator.add, 
+         map(collections.Counter, list5)))
+if(len(set(result2.values()))==1):
+    key=result1.get(min(result1.keys()))
+    print(key)
+else:
+    sum1=0
+    for i,j in result2.items():
+        if(j!=max(result2.values())):
+            sum1+=result1.get(i)
+    print("Bill :",sum1)        
+    
+
+'''
+TEST CASE 1:
+INPUT:
+3
+00:01:07,400-234-090
+00:05:01,701-080-080
+00:05:00,400-234-090 
+
+OUTPUT:
+900
+
+
+
+TEST CASE 2:
+INPUT:
+6
+00:01:07,400-234-090
+00:05:01,701-080-080
+00:05:00,400-234-090
+00:06:07,900-234-090
+00:02:01,781-080-080
+00:09:00,300-234-090
+
+output:
+3264
+
+
+
+TEST CASE 3:
+INPUT:
+6
+00:02:45,890-765-566
+00:05:23,236-418-785
+00:07:00,236-418-785
+00:02:45,890-765-566 
+00:05:23,236-418-785
+00:07:00,236-418-785
+
+OUTPUT:
+990
+
+
+
+TEST CASE 4:
+INPUT:
+3
+00:05:17,959-720-018 
+00:03:00,959-720-018 
+00:04:59,959-720-018
+
+OUTPUT:
+0
+
+
+
+TEST CASE 5:
+INPUT:
+3
+00:04:59,959-720-018 
+00:05:00,750-222-197
+00:15:31,892-545-277
+
+OUTPUT:
+1647
+
+
+
+TEST CASE 6:
+INPUT:
+3
+00:05:59,959-720-018
+00:07:00,750-222-197
+00:05:59,892-545-277
+
+OUTPUT:
+1800
+
+
+
+TEST CASE 7:
+INPUT:
+4
+00:05:17,959-720-018 
+00:19:38,750-222-197 
+00:14:21,959-720-018 
+00:17:01,892-545-277
+
+OUTPUT:
+5850
+'''
