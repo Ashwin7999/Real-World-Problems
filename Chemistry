@@ -22,8 +22,10 @@ for i in range(int(input())):
     d[a[0]]=a[1].split("+")
 list1=[]    
 for i in range(int(input())):
-    b=input()
-    count=0
+    list1.append(input())
+list1=set(list1)
+count=0
+for b in list1:
     def search(i):
         global count
         if(i in d.keys()):
@@ -91,5 +93,27 @@ H2SO4NaCL
 H2Na
 
 OUTPUT:
-1
+3
+'''
+
+
+
+TEST CASE 5:
+INPUT:
+5
+H2SO4NaCL = H2SO4 + NaCL
+H2SO4 = H2O + SO3
+H2O = H + O
+SO3 = S + O
+NaCL = Na + CL
+2
+H2SO4NaCL
+SO3
+
+OUTPUT:
+6
+
+
+
+TEST CASE 7:
 '''
