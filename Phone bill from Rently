@@ -47,8 +47,9 @@ In your solution, focus on correctness. The performance of your solution will no
 PROGRAM 1: UPDATED
 from math import ceil
 d1={};      d2={}
-n=int(input())
-a=input().split()
+a='''00:01:07,400-234-090 
+     00:05:01,701-080-080 
+     00:05:00,400-234-090'''.split()
 for i in a:
     i=i.split(",")
     h,m,s=i[0].split(":")
