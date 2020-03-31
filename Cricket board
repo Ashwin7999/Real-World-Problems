@@ -1,0 +1,113 @@
+W - Wide
+O - Out
+. - Dot
+1,2,3,4,6(runs)
+P1.....P11=Player 1 to Player 11
+
+Example:1
+
+INPUT: ...222431666
+OUTPUT:
+P1 - 7(runs)
+P2 - 25(runs)
+Strike - p1
+Non-Strike-P2
+Total-32
+Overs-2
+Extra-0
+Wicket(s)-0
+Remaining Wicket(s)-10
+
+
+Example 2:
+INPUT: WWW...23011..46
+OUTPUT:
+P1 - 16(runs)
+P2 - 0(runs)
+P3 - 1(runs)
+strike - P3
+Non-Strike-P1
+Total-20
+Overs-2
+Extra-3
+Wicket(s)-1
+Remaining Wickets(s)-9
+
+Note: Consider the player change the strike for every Over (6 balls).Add one run and one ball to wide. Wide runs will not
+consider under the individual player score. Wide runs consider only as Extra. Total score includes all player individual runs
+and Extra runs.
+
+
+
+PROGRAM 1:
+a="46112W1O166O.21143O"
+strike=['P1','P2'];     players={'P1':0,'P2':0}
+balls=0;    total=0;    extra=0;
+for i in a:
+    if(i=="."):
+        balls+=1
+    elif(i=="1" or i=="3"):
+        balls+=1
+        players[strike[0]]+=int(i)
+        total+=int(i)
+        strike[0],strike[1]=strike[1],strike[0]
+    elif(i=="2" or i=="4" or i=="6"):
+        balls+=1
+        players[strike[0]]+=int(i)
+        total+=int(i)
+    elif(i=="W"):
+        total+=1
+        extra+=1
+    elif(i=="O"):
+        strike.pop(0)
+        strike.insert(0,'P'+str(len(players)+1))
+        players['P'+str(len(players)+1)]=0
+        balls+=1
+    if(balls%6==0):
+        strike[0],strike[1]=strike[1],strike[0]
+for i,j in players.items():
+    print("{}-{}(runs)".format(i,j))
+print("strike-{}\nNon-strike-{}\nTotal-{}".format(strike[0],strike[1],total))   
+print("Overs-{0:.1f}".format(len(a)//6))
+print("Extra-{}\nWicket(s)-{}\nRemaining Wicket(s)-{}".format(extra,len(players)-2,10-(len(players)-2)))
+
+
+
+'''
+TEST CASE 1:
+INPUT:
+...222431666
+
+OUTPUT:
+P1-7(runs)
+P2-25(runs)
+strike-P1
+Non-strike-P2
+Total-32
+Overs-2.0
+Extra-0
+Wicket(s)-0
+Remaining Wicket(s)-10
+
+
+TEST CASE 2:
+INPUT:
+46112W1
+O166O.
+21143O
+
+OUTPUT:
+P1-14(runs)
+P2-13(runs)
+P3-11(runs)
+P4-1(runs)
+P5-0(runs)
+strike-P3
+Non-strike-P5
+Total-40
+Overs-3.0
+Extra-1
+Wicket(s)-3
+Remaining Wicket(s)-7
+'''
+        
