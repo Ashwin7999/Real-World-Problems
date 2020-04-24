@@ -1,0 +1,57 @@
+box,count=[],0
+def get_input():
+    rc=int(input())
+    for i in range(rc):
+        box.append(list(input()))    
+    return rc,box
+
+def fact(rc):
+    fact=0
+    for i in range(1,rc):
+        fact=fact+i
+    return fact
+
+def calculate(rc,box,fact):    
+    while(True):
+        global count
+        temp=0
+        #check condition whether there is not 'R' in top of diagonals 
+        for i in range(rc):
+            for j in range(rc):
+                if(j>i):
+                    if(box[i][j]!='R'):
+                        temp+=1
+
+        #if no 'R' present break the loop
+        if(temp==fact):
+            break
+        
+        for i in range(len(box)-1):
+            if('R' in box[i] and 'R' in box[i+1]):
+                    if(box[i][::-1].index('R')<box[i+1][::-1].index('R')):
+                        box[i][::-1],box[i+1][::-1]=box[i+1][::-1],box[i][::-1]
+                        count+=1
+                        break
+            elif('R' not in box[i+1]):
+                box[i][::-1],box[i+1][::-1]=box[i+1][::-1],box[i][::-1]
+                count+=1
+                break
+        else:
+            break
+    return box,count
+
+def check(rc,count):
+    for i in range(rc):
+        for j in range(rc):
+            if(j>i):
+                if(box[i][j]=='R'):
+                    return -1          
+    return count
+
+def main():
+    rc,box=get_input()
+    factorial=fact(rc)
+    box,count=calculate(rc,box,factorial)
+    count=check(rc,count)
+    print(count)
+main()    
