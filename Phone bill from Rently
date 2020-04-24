@@ -79,8 +79,43 @@ print("Bill :",sum(d2.values()))
 
 
 
-
 PROGRAM 2:
+from math import ceil
+dict1={}   
+dict2={}
+while(1):
+    try:
+        a=input()
+        b=a.split(",")
+        hr,min,sec=b[0].split(":")
+        time1=int(hr)*3600+int(min)*60+int(sec)
+        time2=time1
+        if(time2>=0 and time2<300):
+            time2=time2*3
+        elif(time2==300):
+            time2=(time2//60)*150
+        else:
+            time2=ceil(time2/60)*150
+        m=int(b[1].replace("-",''))   
+        if(m not in dict1.keys()):
+            dict1[m]=time1
+            dict2[m]=time2
+        else:
+            dict1[m]+=time1
+            dict2[m]+=time2
+    except:
+        break
+l=[]
+for i,j in sorted(dict1.items(),key=lambda x:x[1]):
+    if(j==max(dict1.values())):
+        l.append(i)
+l=sorted(l)
+dict2[l[0]]=0
+print("Bill :",sum(dict2.values()))
+
+
+
+PROGRAM 3:
 import collections, functools, operator 
 n=3
 list1=[]
