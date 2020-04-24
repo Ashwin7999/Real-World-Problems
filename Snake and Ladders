@@ -1,0 +1,35 @@
+class Entry(object):
+    def __init__(self,v=0,d=0):
+        self.v=v
+        self.d=d
+def getMinDiceThrows(move,N):
+    visited=[False]*N
+    list1=[]
+    visited[0]=True
+    list1.append(Entry(0,0))
+    
+    qe=Entry()
+    while(list1):
+        qe=list1.pop(0)
+        v=qe.v
+        
+        if(v==N-1):
+            break
+        j=v+1
+        while(j<=v+6 and j<N):
+            if(visited[j] is False):
+                a=Entry()
+                a.d=qe.d+1
+                visited[j]=True
+                
+                a.v=move[j] if move[j] != -1 else j
+                list1.append(a)
+            j+=1
+    return qe.d
+N=100
+moves=[-1]*N
+x=input().split(",")
+for i in x:
+    y=i.split(":")
+    moves[int(y[0])]=int(y[1])
+print("Min Dice throws required is {}".format(getMinDiceThrows(moves,N)))    
