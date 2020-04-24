@@ -40,6 +40,64 @@ and Extra runs.
 
 
 PROGRAM 1:
+
+from collections import OrderedDict
+s=''
+while(1):
+    try:
+        s+=input()
+    except EOFError:
+        break
+def Runs(r):
+    ind_Score[dash['Strike']]+=r
+    dash['Total']+=r
+    if(r%2!=0):
+        dash['Strike'],dash["Non-Strike"]=dash["Non-Strike"],dash['Strike']
+def out():
+    dash['Wicket(s)']+=1
+    new_p='P'+str(dash['Wicket(s)']+2)
+    ind_Score[new_P]=0
+    dash["Strike"]=new_P
+dash=OrderedDict()
+dash['Strike']='P1'
+dash['Non-Strike']='P2'
+dash['Total']=0
+dash['Overs']=0
+dash['Extra']=0
+dash['Wicket(s)']=0
+ind_Score=OrderedDict()
+ind_Score['P1']=0
+ind_Score['P2']=0
+ball=0
+for i in s:
+    if(i!=' '):
+        ball+=1
+    if(i=="W"):
+        dash['Total']+=1
+        dash['Extra']+=1
+        ball-=1
+    if(i in '12346'):
+        Runs(int(i))
+    if(i=='O'):
+        out()
+    if(ball==6):
+        dash['Strike'],dash['Non-Strike']=dash['Non-Strike'],dash['Strike']
+        dash['Overs']+=1
+        ball=0
+dash['Overs']+=ball*0.1
+for players,run in ind_Score.items():
+    print("{}-{}(runs)".format(players,run))
+for l,j in dash.items():
+    print("{}-{}".format(l,j))
+print("Remaining Wicket(s)-{}".format(10-dash['Wicket(s)']))    
+
+
+
+
+
+
+
+PROGRAM 2 INCOMPLETE:
 a="46112W1O166O.21143O"
 strike=['P1','P2'];     players={'P1':0,'P2':0}
 balls=0;    total=0;    extra=0;
