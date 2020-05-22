@@ -1,0 +1,30 @@
+SCORE: 100%
+
+def Rotation(m,n,mat,list1):
+    k=0;l=0
+    while(k<m and l<n):
+        for i in range(l,n):
+            list1.append(mat[k][i])
+        k+=1
+        for i in range(k,m):
+            list1.append(mat[i][n-1])
+        n-=1
+        if(k<m):
+            for i in range(n-1,(l-1),-1):
+                list1.append(mat[m-1][i])
+            m-=1 
+        if(l<n):
+            for i in range(m-1,k-1,-1):
+                list1.append(mat[i][l])
+            l+=1
+    return list1
+R,C=map(int,input().split())
+mat=[input().split() for i in range(R)]
+k=int(input())
+list1=[]
+x=Rotation(R,C,mat,list1)
+for i in range(k):
+    b=x[1:]
+    b.append(x[0])
+    x=b
+print(*x)    
