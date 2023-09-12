@@ -29,7 +29,7 @@ C – Is the sink destination  of pipe (Cluster tank)
 
 
 
-PROGRAM:
+PROGRAM 1:
 
 fill={};    cluster= {};    pipe=[];    water=0
 days=3
@@ -80,6 +80,61 @@ while(d<days):
     d+=1
 print(water)    
 
+________________________________________________________________________________________________________________
+
+PROGRAM 2:
+
+def cluster_input(cluster,consum,water):
+    for i in range(0,int(input())):
+        i=input().split(" ")
+        cluster[i[0]]=list(map(int,i[1:]))
+        consum[i[0]]=int(i[2])
+        water+=int(i[2])
+    return water
+        
+def pipe_input(pipe):
+    for i in range(0,int(input())):
+        i=input().split('_')
+        if 'F' == i[0]:
+            pipe.append([i[1]])
+        else:
+            for j in pipe:
+                if i[0] in j:
+                    j.append(i[1])
+
+def refill_cluster(rfc,pipe,water):
+    for i in pipe:
+        for j in rfc:
+            if(j in i):
+                for x in range(0,i.index(j)+1):
+                    consum[i[x]]=cluster[i[x]][1]
+                    water+=cluster[i[x]][1]
+    return water
+                    
+def distribution(cluster):
+    for i,j in cluster.items():
+        consum[i]=consum[i]-j[0]
+        
+def start(days,water):
+    while(days>0):
+        redflag=0
+        rfc=[]
+        for i,j in consum.items():
+            if(j<cluster[i][0]):
+                redflag+=1
+                rfc.append(i)
+        if(redflag!=0):
+            water=refill_cluster(rfc,pipe,water)
+            distribution(cluster)
+        else:
+            distribution(cluster)
+        days-=1
+    print(water)
+
+days=int(input());water=0;pipe=[];cluster={};consum={}
+water=cluster_input(cluster,consum,water)
+pipe_input(pipe)
+start(days,water)
 
 
 '''
